@@ -1,0 +1,48 @@
+name: Process candidate lesson
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: write
+
+jobs:
+  process:
+    if: contains(github.event.issue.labels.*.name, 'candidate')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Run lesson processor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          # How many separate reports of the "same" mistake are needed before
+          # it becomes a confirmed lesson that ships to every user's agent.
+          CONFIRM_THRESHOLD: "3"
+        run: python scripts/process_lesson.py
+
+      - name: Commit updated lesson files
+        run: |
+          git config user.name "lesson-bot"
+          git config user.email "lesson-bot@users.noreply.github.com"
+          git add lessons.json pending_candidates.json
+          git diff --cached --quiet || git commit -m "Update lessons (issue #${{ github.event.issue.number }})"
+          git push
