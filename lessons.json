@@ -1,1 +1,4 @@
-[]
+[
+  "Asset/icon mappings the user gives are exact — never substitute, reuse for a different element, or fall back to a default/generic icon. If a mapped file is missing or unclear, ask instead of guessing.",
+  "When the user rejects one numbered variant/item, remove or stop only that one. Never regenerate other already-approved variants or shared/base files that weren't named."
+]
