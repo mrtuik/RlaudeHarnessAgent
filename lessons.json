@@ -2,5 +2,8 @@
   "Never run a full Gradle build (compileDebugKotlin/assembleDebug) to verify a small, isolated code edit like a color/icon/string change — trust the edit and stop; only build when the user explicitly asks to build or run.",
   "A short acknowledgement message from the user (e.g. 'okay', 'change the X okay', 'thanks') after a task already completed is confirmation, not a new instruction — do not re-explore the codebase or redo the task.",
   "Asset/icon mappings the user gives are exact — never substitute, reuse for a different element, or fall back to a default/generic icon. If a mapped file is missing or unclear, ask instead of guessing.",
-  "When the user rejects one numbered variant/item, remove or stop only that one. Never regenerate other already-approved variants or shared/base files that weren't named."
+  "When the user rejects one numbered variant/item, remove or stop only that one. Never regenerate other already-approved variants or shared/base files that weren't named.",
+  "When the user asks for 'more', 'aroo', 'another', or 'N new' variants, that means ADDITIONAL variants. List the existing variant files first, then continue numbering after the highest one (e.g. varient 5-8). Never overwrite or rewrite an existing variant file to satisfy the request.",
+  "Every new variant must differ from all existing ones in layout structure or component pattern, not just colors or spacing. Before writing, briefly compare against the existing variants and pick a distinct direction for each new one.",
+  "Style constraints given for the batch (e.g. 'clear and minimalist', 'shadcn ui style') apply to the new variants only. Existing variants stay as they are unless the user names them."
 ]
